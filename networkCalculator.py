@@ -1,4 +1,5 @@
 import numpy
+from copy import deepcopy
 
 
 def getDimension():
@@ -11,7 +12,7 @@ def getInitialState(dimension):
     for i in range(dimension):
         inp = input(str.format('Enter initial state of item {}: ', i+1))
         s0.append(float(inp))
-    return s0
+    return [s0]
 
 
 def getTransitions(dimension):
@@ -23,6 +24,17 @@ def getTransitions(dimension):
             cols.append(float(inp))
         transition.append(cols)
     return transition
+
+
+def printMatrix(matrix):
+    print('___')
+    for i in range(len(matrix[0])):
+        row = '|'
+        for j in range(len(matrix)):
+            row += str(matrix[j][i]) + '\t'
+        row += '|'
+        print(row)
+    print('‾‾‾')
 
 
 def dot(first, second):
@@ -41,26 +53,57 @@ def multiply(first, second):
             firstRow = []
             for k in range(len(first)):
                 firstRow.append(first[k][j])
-            print(firstRow)
-            print(secondCol)
+            # print(firstRow)
+            # print(secondCol)
             dp = dot(firstRow, secondCol)
-            print(dp)
+            # print(dp)
             resCol.append(dp)
         res.append(resCol)
     return res
+
+
+def exponent(matrix, power):
+    res = deepcopy(matrix)
+    for i in range(len(res)):
+        for j in range(len(res)):
+            if i == j:
+                res[i][j] = 1
+            else:
+                res[i][j] = 0
+    for i in range(power):
+        res = multiply(matrix, res)
+    return(res)
 
 
 if __name__ == '__main__':
     # dim = getDimension()
     # s0 = getInitialState(dim)
     # t = getTransitions(dim)
-    # print(s0)
-    # print(t)
+    # printMatrix(t)
+    # printMatrix(s0)
     # multiplied = multiply(t, s0)
+    # printMatrix(multiplied)
+    I = [[1,0,0],[0,1,0],[0,0,1]]
+    a = [[1,4,1],[1,0,0],[-1,2,0]]
+    # printMatrix(a)
+    # b = [[2,3,0],[-1,-2,1]]
+    # multiplied = multiply(a,b)
+    # printMatrix(multiplied)
 
-    first = [[1,3,5],[2,4,6]]
-    second = [[1,5],[2,6],[3,7],[4,8]]
-    print(first)
-    print(second)
-    multiplied = multiply(first, second)
-    print(multiplied)
+    print('axI =')
+    printMatrix(multiply(a,I))
+
+    print('axa =')
+    printMatrix(multiply(a,a))
+
+    print('a^0 =')
+    printMatrix(exponent(a,0))
+
+    print('a^1 =')
+    printMatrix(exponent(a,1))
+
+    print('a^2 =')
+    printMatrix(exponent(a,2))
+
+    print('a^5 =')
+    printMatrix(exponent(a,5))
