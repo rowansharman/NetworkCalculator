@@ -1,5 +1,5 @@
-import numpy
 from copy import deepcopy
+import math
 
 
 def getDimension():
@@ -24,6 +24,11 @@ def getTransitions(dimension):
             cols.append(float(inp))
         transition.append(cols)
     return transition
+
+
+def getSteps():
+    steps = input('Enter the number of timesteps you would like to simulate: ')
+    return int(steps)
 
 
 def printMatrix(matrix):
@@ -75,35 +80,56 @@ def exponent(matrix, power):
     return(res)
 
 
+def normalize(matrix):
+    res = []
+    for i in range(len(matrix)):
+        col = []
+        tot = 0
+        for j in range(len(matrix[i])):
+            tot += matrix[i][j]
+        for j in range(len(matrix[i])):
+            col.append(matrix[i][j] / tot)
+        res.append(col)
+    return res
+
+
 if __name__ == '__main__':
-    # dim = getDimension()
-    # s0 = getInitialState(dim)
-    # t = getTransitions(dim)
-    # printMatrix(t)
-    # printMatrix(s0)
+    dim = getDimension()
+    s0 = getInitialState(dim)
+    t = getTransitions(dim)
+    t = normalize(t)
+    s0 = normalize(s0)
+    printMatrix(t)
+    printMatrix(s0)
+    while True:
+        steps = getSteps()
+        finalTransition = exponent(t, steps)
+        finalState = multiply(finalTransition, s0)
+        printMatrix(finalState)
     # multiplied = multiply(t, s0)
     # printMatrix(multiplied)
-    I = [[1,0,0],[0,1,0],[0,0,1]]
-    a = [[1,4,1],[1,0,0],[-1,2,0]]
+
+    # I = [[1,0,0],[0,1,0],[0,0,1]]
+    # a = [[1,4,1],[1,0,0],[-1,2,0]]
     # printMatrix(a)
     # b = [[2,3,0],[-1,-2,1]]
     # multiplied = multiply(a,b)
     # printMatrix(multiplied)
 
-    print('axI =')
-    printMatrix(multiply(a,I))
-
-    print('axa =')
-    printMatrix(multiply(a,a))
-
-    print('a^0 =')
-    printMatrix(exponent(a,0))
-
-    print('a^1 =')
-    printMatrix(exponent(a,1))
-
-    print('a^2 =')
-    printMatrix(exponent(a,2))
-
-    print('a^5 =')
-    printMatrix(exponent(a,5))
+    # print('axI =')
+    # printMatrix(multiply(a,I))
+    #
+    # print('axa =')
+    # printMatrix(multiply(a,a))
+    #
+    # print('a^0 =')
+    # printMatrix(exponent(a,0))
+    #
+    # print('a^1 =')
+    # printMatrix(exponent(a,1))
+    #
+    # print('a^2 =')
+    # printMatrix(exponent(a,2))
+    #
+    # print('a^5 =')
+    # printMatrix(exponent(a,5))
