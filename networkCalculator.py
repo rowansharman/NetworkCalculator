@@ -1,5 +1,5 @@
 from copy import deepcopy
-import math
+from numpy import linalg
 
 
 def getDimension():
@@ -101,6 +101,7 @@ if __name__ == '__main__':
     s0 = normalize(s0)
     printMatrix(t)
     printMatrix(s0)
+    print(linalg.eigvals(t))
     while True:
         steps = getSteps()
         finalTransition = exponent(t, steps)
