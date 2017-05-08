@@ -42,7 +42,7 @@ def printMatrix(matrix, rounding):
             row += str(element) + '\t'
         row += '|'
         print(row)
-    print('‾‾‾')
+    print('---')
 
 
 def dot(first, second):
@@ -117,7 +117,8 @@ if __name__ == '__main__':
         s0 = getInitialState(dim)
         t = getTransitions(dim)
         t = normalize(t)
-        s0 = normalize(s0)
+        if input('Normalize initial state vector? (y/n) ') == 'y':
+            s0 = normalize(s0)
         print('\nNormalized transition matrix:')
         printMatrix(t, 2)
         print('\nState vector at time 0:')
